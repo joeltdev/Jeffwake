@@ -6,6 +6,7 @@ const port = 3001;
 // Set up EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.json);
 
 // Middleware for serving static files
 app.use(express.static(path.join(__dirname, "public")));
