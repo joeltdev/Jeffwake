@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const collection = require("./mongodb");
 const app = express();
 const port = 3001;
 
@@ -61,7 +62,25 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  res.redirect("/home");
+  // Extract data from request body
+  const { name, password } = req.body;
+
+  // Create data object to insert into MongoDB
+  const data = {
+    name: name,
+    password: password,
+  };
+
+  try {
+    // Insert data into MongoDB
+    await collection.insertOne(data);
+
+    // Redirect to home page after signup
+    res.redirect("/home");
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    res.status(500).send("Error signing up. Please try again later.");
+  }
 });
 
 app.get("/home", (req, res) => {
