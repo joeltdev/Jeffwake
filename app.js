@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
       res.send("wrong password");
     }
   } catch (error) {
-    res.send("wrong details");
+    res.send("wrong detail");
   }
 });
 
