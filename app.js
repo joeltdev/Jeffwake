@@ -46,13 +46,26 @@ app.get("/login", (req, res) => {
   }
 });
 
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  if (email === "joelmathew@gmail.com" && password === "1234") {
-    req.session.isAuth = true;
-    res.redirect("/home");
-  } else {
-    res.redirect("/login");
+// app.post("/login", (req, res) => {
+//   const { email, password } = req.body;
+//   if (email === "joelmathew@gmail.com" && password === "1234") {
+//     req.session.isAuth = true;
+//     res.redirect("/home");
+//   } else {
+//     res.redirect("/login");
+//   }
+// });
+
+app.post("/login", async (req, res) => {
+  try {
+    const check = await User.findOne({ email: req.body.email });
+    if (check.email === req.body.password) {
+      res.render("home");
+    } else {
+      res.send("wrong password");
+    }
+  } catch (error) {
+    res.send("wrong details");
   }
 });
 
