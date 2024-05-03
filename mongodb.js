@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
+
 mongoose
-  .connect("mongodb://localhost:27017/LoginSignupForm", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb://localhost:27017/LoginSignupForm")
   .then(() => {
     console.log("MongoDB connected");
   })

@@ -3,9 +3,10 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const nocache = require("nocache"); // Require nocache middleware
-const collection = require("./mongodb");
+const bcrypt = require("bcrypt");
+const User = require("./mongodb");
 const app = express();
-const port = 3002;
+const port = 3001;
 
 // Set up EJS
 app.set("view engine", "ejs");
@@ -46,26 +47,15 @@ app.get("/login", (req, res) => {
   }
 });
 
-// app.post("/login", (req, res) => {
-//   const { email, password } = req.body;
-//   if (email === "joelmathew@gmail.com" && password === "1234") {
-//     req.session.isAuth = true;
-//     res.redirect("/home");
-//   } else {
-//     res.redirect("/login");
-//   }
-// });
-
 app.post("/login", async (req, res) => {
-  try {
-    const check = await User.findOne({ email: req.body.email });
-    if (check.email === req.body.password) {
-      res.render("home");
-    } else {
-      res.send("wrong password");
-    }
-  } catch (error) {
-    res.send("wrong details");
+  const { email, password } = req.body;
+  const userdata = await User.findOne({ email: email });
+  console.log(password, userdata.password);
+  if (userdata.password == password) {
+    req.session.isAuth = true;
+    res.redirect("/home");
+  } else {
+    res.redirect("/login");
   }
 });
 
@@ -76,6 +66,7 @@ app.get("/signup", (req, res) => {
 app.post("/signup", async (req, res) => {
   // Extract data from request body
   const { email, password } = req.body;
+  console.log(email, password);
 
   // Create data object to insert into MongoDB
   const data = {
@@ -85,7 +76,7 @@ app.post("/signup", async (req, res) => {
 
   try {
     // Insert data into MongoDB
-    await collection.insertOne(data);
+    await User.create([data]);
 
     // Redirect to login page after signup
     res.redirect("/login");
@@ -132,6 +123,5 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-//if i logout i don't need to go back to the website
 //mongo db is not connected with the website
 //signup data is not form on mondb  error messae
