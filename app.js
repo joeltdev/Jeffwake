@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const nocache = require("nocache"); // Require nocache middleware
 const collection = require("./mongodb");
 const app = express();
 const port = 3001;
@@ -9,6 +10,8 @@ const port = 3001;
 // Set up EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+app.use(nocache());
 
 // Session middleware
 app.use(
@@ -54,20 +57,16 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
-  if (req.session.isAuth) {
-    res.redirect("/home");
-  } else {
-    res.render("signup");
-  }
+  res.render("signup");
 });
 
 app.post("/signup", async (req, res) => {
   // Extract data from request body
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
   // Create data object to insert into MongoDB
   const data = {
-    name: name,
+    email: email,
     password: password,
   };
 
@@ -76,7 +75,7 @@ app.post("/signup", async (req, res) => {
     await collection.insertOne(data);
 
     // Redirect to home page after signup
-    res.redirect("/home");
+    res.redirect("/login");
   } catch (error) {
     console.error("Error inserting data:", error);
     res.status(500).send("Error signing up. Please try again later.");
@@ -119,3 +118,7 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+//if i logout i don't need to go back to the website
+//mongo db is not connected with the website
+//signup data is not form on mondb  error messae
