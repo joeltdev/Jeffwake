@@ -74,7 +74,7 @@ app.post("/signup", async (req, res) => {
     // Insert data into MongoDB
     await collection.insertOne(data);
 
-    // Redirect to home page after signup
+    // Redirect to login page after signup
     res.redirect("/login");
   } catch (error) {
     console.error("Error inserting data:", error);
