@@ -5,7 +5,7 @@ const session = require("express-session");
 const nocache = require("nocache"); // Require nocache middleware
 const collection = require("./mongodb");
 const app = express();
-const port = 3001;
+const port = 3002;
 
 // Set up EJS
 app.set("view engine", "ejs");
@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
       res.send("wrong password");
     }
   } catch (error) {
-    res.send("wrong detail");
+    res.send("wrong details");
   }
 });
 
