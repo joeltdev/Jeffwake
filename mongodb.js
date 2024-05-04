@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 mongoose
   .connect("mongodb://localhost:27017/LoginSignupForm")
   .then(() => {
@@ -19,8 +18,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // phone: {
+  //   type: Number,
+  //   required: true,
+  // },
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("Users", userSchema);
 
 module.exports = User;

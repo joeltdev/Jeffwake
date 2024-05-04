@@ -123,5 +123,5 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-//mongo db is not connected with the website
-//signup data is not form on mondb  error messae
+//hash password
+//phone add mongodb
