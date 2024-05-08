@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+      <h2 class="text-3xl font-bold text-gray-800 text-center mb-4">
+        Forgot Your Password?
+      </h2>
+      <form action="/forgot-password" method="POST">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email address</label
+          >
+          <input
+            type="email"
+            name="email"
+            id="email"
+            autocomplete="email"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none sm:text-sm"
+            placeholder="Enter your email address"
+          />
+        </div>
+        <div class="text-center mb-4">
+          <button
+            type="submit"
+            class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Send OTP
+          </button>
+        </div>
+      </form>
+      <div class="text-center">
+        <p class="text-sm text-gray-600">
+          Remembered your password?
+          <a href="/login" class="text-indigo-600 hover:text-indigo-500"
+            >Login</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -5,6 +5,7 @@ const session = require("express-session");
 const nocache = require("nocache"); // Require nocache middleware
 const bcrypt = require("bcrypt");
 const User = require("./mongodb");
+const otpGen = require("./smaple");
 const app = express();
 const port = 3001;
 
@@ -22,6 +23,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware for parsing JSON bodies
@@ -94,13 +96,13 @@ app.get("/home", (req, res) => {
   }
 });
 
-app.post("/home", (req, res) => {
-  if (req.session.isAuth) {
-    res.render("home");
-  } else {
-    res.redirect("/login");
-  }
-});
+// app.post("/home", (req, res) => {
+//   if (req.session.isAuth) {
+//     res.render("home");
+//   } else {
+//     res.redirect("/login");
+//   }
+// });
 
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
@@ -110,6 +112,28 @@ app.post("/logout", (req, res) => {
       res.redirect("/login");
     }
   });
+});
+
+app.get("/forgot-password", (req, res) => {
+  res.render("forgot");
+});
+
+app.post("/forgot-password", async (req, res) => {
+  const otp = await otpGen();
+  console.log(otp);
+  req.session.userOtp = otp;
+  res.redirect("/otp");
+});
+
+app.get("/otp", (req, res) => {
+  res.render("otp");
+});
+
+app.post("/otp", (req, res) => {
+  if (req.body.otp === req.session.userOtp) {
+    req.session.isAuth = true;
+    res.redirect("/");
+  }
 });
 
 // Error handling middleware
@@ -125,3 +149,6 @@ app.listen(port, () => {
 
 //hash password
 //phone add mongodb
+//forgot password
+//same user name not allowwd
+// router
