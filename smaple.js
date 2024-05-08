@@ -1,15 +1,13 @@
-function reversePrefix(word, ch) {
-  let index = 0;
-  for (let i = 0; i <= word.length; i++) {
-    if (word[i] === ch) {
-      index = i;
-      break;
-    }
+function generateOTP(length) {
+  const characters = "0123456789";
+  const OTP = [];
+  for (let i = 0; i < length; i++) {
+    const index = Math.floor(Math.random() * characters.length);
+    OTP.push(characters[index]);
   }
-  if (index > 0) {
-let reversedSubstring = word.su
-}
+  return OTP.join("");
 }
 
-const word = "hi guys this is joel";
-const 
+// Example usage:
+const OTP = generateOTP(6); // Generates a 6-digit OTP
+console.log(OTP); // Output the generated OTP
